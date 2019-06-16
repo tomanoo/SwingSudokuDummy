@@ -2,8 +2,6 @@ package sudoku;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Sudoku extends JFrame {
 
@@ -14,7 +12,7 @@ public class Sudoku extends JFrame {
     public static final Color OPEN_CELL_COLOR = Color.WHITE;
     public static final Color OPEN_CELL_TRUE_COLOR = Color.GREEN;
     public static final Color OPEN_CELL_FALSE_COLOR = Color.RED;
-    private static final Font FONT_MODEL = new Font("Monospaced", Font.BOLD, 30);
+    private static final Font FONT_MODEL = new Font("Sans-Serif", Font.BOLD, 30);
 
     public static JTextField[][] cellValues = new JTextField[GRID_SIZE][GRID_SIZE];
 
@@ -82,7 +80,7 @@ public class Sudoku extends JFrame {
     public static boolean checkWin() {
         for (int i=0; i<Sudoku.GRID_SIZE; i++) {
             for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                if (cellValues[i][j].getText().equals(String.valueOf(solvedSudoku[i][j]))) {
+                if (!cellValues[i][j].getText().equals(String.valueOf(solvedSudoku[i][j]))) {
                     return false;
                 }
             }

@@ -27,7 +27,7 @@ public class KeyInputEvent implements KeyListener {
                                 JOptionPane.showMessageDialog(null, "Congratulations!");
                             }
                         }
-                        else if (e.getKeyChar() == '\b') {//(String.valueOf(Sudoku.solvedSudoku[i][j]).equals("")) {
+                        else if (e.getKeyChar() == '\b') {
                             valid = true;
                             Sudoku.cellValues[i][j].setText("");
                             Sudoku.cellValues[i][j].setBackground(Sudoku.OPEN_CELL_COLOR);
