@@ -2,6 +2,7 @@ package sudoku;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Sudoku extends JFrame {
 
@@ -14,29 +15,55 @@ public class Sudoku extends JFrame {
     public static final Color OPEN_CELL_FALSE_COLOR = Color.RED;
     private static final Font FONT_MODEL = new Font("Sans-Serif", Font.BOLD, 30);
 
+    public static int getVersion() {
+        return version;
+    }
+
+    private static final int version = ThreadLocalRandom.current().nextInt(2);
+
     public static JTextField[][] cellValues = new JTextField[GRID_SIZE][GRID_SIZE];
 
-    public static int[][] solvedSudoku = {
-                    {5,3,4,6,7,8,9,1,2},
-                    {6,7,2,1,9,5,3,4,8},
-                    {1,9,8,3,4,2,5,6,7},
-                    {8,5,9,7,6,1,4,2,3},
-                    {4,2,6,8,5,3,7,9,1},
-                    {7,1,3,9,2,4,8,5,6},
-                    {9,6,1,5,3,7,2,8,4},
-                    {2,8,7,4,1,9,6,3,5},
-                    {3,4,5,2,8,6,1,7,9}};
+    public static int[][][] solvedSudoku = {
+                    {{5,3,4,6,7,8,9,1,2},
+                     {6,7,2,1,9,5,3,4,8},
+                     {1,9,8,3,4,2,5,6,7},
+                     {8,5,9,7,6,1,4,2,3},
+                     {4,2,6,8,5,3,7,9,1},
+                     {7,1,3,9,2,4,8,5,6},
+                     {9,6,1,5,3,7,2,8,4},
+                     {2,8,7,4,1,9,6,3,5},
+                     {3,4,5,2,8,6,1,7,9}},
+                    {{5,3,4,6,7,8,9,1,2},
+                     {6,7,2,1,9,5,3,4,8},
+                     {1,9,8,3,4,2,5,6,7},
+                     {8,5,9,7,6,1,4,2,3},
+                     {4,2,6,8,5,3,7,9,1},
+                     {7,1,3,9,2,4,8,5,6},
+                     {9,6,1,5,3,7,2,8,4},
+                     {2,8,7,4,1,9,6,3,5},
+                     {3,4,5,2,8,6,1,7,9}}
+                    };
 
-    public static boolean[][] masks = {
-        {true,  true,  false, false, true,  false, false, false, false},
-        {true,  false, false, true,  true,  true,  false, false, false},
-        {false, true,  true,  false, false, false, false, true,  false},
-        {true,  false, false, false, true,  false, false, false, true},
-        {true,  false, false, true,  false, true,  false, false, true},
-        {true,  false, false, false, true,  false, false, false, true},
-        {false, true,  false, false, false, false, true,  true,  false},
-        {false, false, false, true,  true,  true,  false, false, false},
-        {false, false, false, false, true,  false, false, true,  true}};
+    public static boolean[][][] masks = {
+                    {{true,  true,  false, false, true,  false, false, false, false},
+                     {true,  false, false, true,  true,  true,  false, false, false},
+                     {false, true,  true,  false, false, false, false, true,  false},
+                     {true,  false, false, false, true,  false, false, false, true},
+                     {true,  false, false, true,  false, true,  false, false, true},
+                     {true,  false, false, false, true,  false, false, false, true},
+                     {false, true,  false, false, false, false, true,  true,  false},
+                     {false, false, false, true,  true,  true,  false, false, false},
+                     {false, false, false, false, true,  false, false, true,  true}},
+                    {{true,  false, true,  false, false, true,  false, false, true},
+                     {false, true,  false, false, false, false, false, false, true},
+                     {false, false, true,  false, true,  false, false, false, false},
+                     {true,  false, false, true,  true,  true,  false, false, false},
+                     {false, false, true,  false, false, false, true,  false, true},
+                     {false, false, false, false, false, true,  false, false, false},
+                     {true,  false, false, false, true,  false, false, false, false},
+                     {true,  true,  false, true,  false, true,  true,  false, false},
+                     {true,  false, false, false, false, true,  false, false, true}}
+                    };
 
 
 
@@ -52,7 +79,7 @@ public class Sudoku extends JFrame {
                 cellValues[i][j] = new JTextField();
                 cp.add(cellValues[i][j]);
 
-                if (!masks[i][j]) {
+                if (!masks[version][i][j]) {
                     cellValues[i][j].setText("");
                     cellValues[i][j].setEditable(true);
                     cellValues[i][j].setBackground(OPEN_CELL_COLOR);
@@ -60,7 +87,7 @@ public class Sudoku extends JFrame {
                 }
 
                 else {
-                    cellValues[i][j].setText(String.valueOf(solvedSudoku[i][j]));
+                    cellValues[i][j].setText(String.valueOf(solvedSudoku[version][i][j]));
                     cellValues[i][j].setEditable(false);
                     cellValues[i][j].setBackground(OPEN_CELL_COLOR);
                 }
@@ -80,7 +107,7 @@ public class Sudoku extends JFrame {
     public static boolean checkWin() {
         for (int i=0; i<Sudoku.GRID_SIZE; i++) {
             for (int j = 0; j < Sudoku.GRID_SIZE; j++) {
-                if (!cellValues[i][j].getText().equals(String.valueOf(solvedSudoku[i][j]))) {
+                if (!cellValues[i][j].getText().equals(String.valueOf(solvedSudoku[version][i][j]))) {
                     return false;
                 }
             }

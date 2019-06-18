@@ -11,15 +11,17 @@ public class KeyInputEvent implements KeyListener {
         boolean valid = false;
         boolean isDigit = Character.isDigit(e.getKeyChar());
 
+        int version = Sudoku.getVersion();
+
         JTextField cellSource = (JTextField) e.getSource();
 
         if (isDigit || e.getKeyChar() == '\b') {
             for (int i = 0; i < Sudoku.GRID_SIZE && !valid; i++) {
                 for (int j = 0; j < Sudoku.GRID_SIZE && !valid; j++) {
                     if (Sudoku.cellValues[i][j] == cellSource) {
-                        if (String.valueOf(Sudoku.solvedSudoku[i][j]).equals(String.valueOf(e.getKeyChar()))) {
+                        if (String.valueOf(Sudoku.solvedSudoku[version][i][j]).equals(String.valueOf(e.getKeyChar()))) {
                             valid = true;
-                            Sudoku.masks[i][j] = true;
+                            Sudoku.masks[version][i][j] = true;
                             Sudoku.cellValues[i][j].setText(String.valueOf(e.getKeyChar()));
                             Sudoku.cellValues[i][j].setBackground(Sudoku.OPEN_CELL_TRUE_COLOR);
                             Sudoku.cellValues[i][j].setEditable(false);
